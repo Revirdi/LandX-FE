@@ -1,5 +1,4 @@
-import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { getUser, addUser, editUser, deleteUser } from "../api/userApi";
 
@@ -7,6 +6,10 @@ import UsersCard from "./UsersCard";
 
 function Users() {
   const queryClient = useQueryClient();
+  const [addNewUser, setAddNewUser] = useState({
+    username: "",
+    email: "",
+  });
 
   const { data, isLoading, isError, error } = useQuery("users", getUser);
 
@@ -16,9 +19,21 @@ function Users() {
     },
   });
 
+  const addNewUserMutation = useMutation(addUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("users");
+    },
+  });
+
+  const onAddNewUser = () => {
+    addNewUserMutation.mutate(addNewUser);
+    setAddNewUser({ username: "", email: "" });
+  };
+
   const onEditHandler = (e) => {
     editUserMutation.mutate(e);
   };
+
   // const fetchDataUser = async () => {
   //   const res = await axios.get("http://localhost:3636/api/user");
   //   return res.data;
@@ -65,19 +80,33 @@ function Users() {
             <div className="flex flex-row justify-between">
               <input
                 name="username"
-                // value={editField.email}
-                // onChange={onChangeHandler}
+                value={addNewUser.username}
+                onChange={(e) =>
+                  setAddNewUser({
+                    ...addNewUser,
+                    [e.target.name]: e.target.value,
+                  })
+                }
                 placeholder="Username"
                 className="p-1 px-2 mb-2 mt-2 shadow appearance-none border rounded w-2/5 text-gray-800"
               />
               <input
                 name="email"
-                // value={editField.email}
-                // onChange={onChangeHandler}
+                value={addNewUser.email}
+                onChange={(e) =>
+                  setAddNewUser({
+                    ...addNewUser,
+                    [e.target.name]: e.target.value,
+                  })
+                }
                 placeholder="Email"
                 className="p-1 mb-2 mt-2 px-2 shadow appearance-none border rounded w-2/5 text-gray-800"
               />
-              <button className="text-white bg-green-600 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 mt-2">
+              <button
+                type="button"
+                onClick={onAddNewUser}
+                className="text-white bg-green-600 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 mt-2"
+              >
                 Add User
               </button>
             </div>
