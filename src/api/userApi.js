@@ -23,5 +23,10 @@ export const editUser = async (data) => {
 };
 
 export const deleteUser = async (id) => {
-  return await axiosInstance.delete("/api/user/" + id);
+  try {
+    const res = await axiosInstance.delete("/api/user/" + id);
+    return alert(res.data.message);
+  } catch (error) {
+    return alert(error?.response?.data?.message);
+  }
 };

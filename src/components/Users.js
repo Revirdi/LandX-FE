@@ -25,6 +25,12 @@ function Users() {
     },
   });
 
+  const deleteUserMutation = useMutation(deleteUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("users");
+    },
+  });
+
   const onAddNewUser = () => {
     addNewUserMutation.mutate(addNewUser);
     setAddNewUser({ username: "", email: "" });
@@ -34,26 +40,9 @@ function Users() {
     editUserMutation.mutate(e);
   };
 
-  // const fetchDataUser = async () => {
-  //   const res = await axios.get("http://localhost:3636/api/user");
-  //   return res.data;
-  // };
-
-  // const { data, isLoading, isError, error, refetch } = useQuery(
-  //   "users",
-  //   fetchDataUser
-  // );
-  // const onEditHandler = async (data) => {
-  //   const res = await axios.put("http://localhost:3636/api/user", data);
-  //   console.log(res);
-  //   refetch();
-  // };
-  // const { mutate: editDataUser } = useMutation(editUser);
-
-  // const onEditHandler = async (data) => {
-  //   editDataUser(data);
-  //   refetch();
-  // };
+  const onDeleteHandler = (id) => {
+    deleteUserMutation.mutate(id);
+  };
 
   const renderData = () => {
     return data.map((data) => {
@@ -64,6 +53,7 @@ function Users() {
           username={data.username}
           email={data.email}
           onEditHandler={onEditHandler}
+          onDeleteHandler={onDeleteHandler}
         />
       );
     });
