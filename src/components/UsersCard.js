@@ -13,28 +13,26 @@ function UsersCard({ onDeleteHandler, onEditHandler, ...data }) {
   return (
     <tr className="bg-gray-100 border-b">
       <td className="text-lg text-gray-900 font-semibold px-6 py-4 whitespace-nowrap w-1/3">
-        {isEdit ? (
-          <input
-            name="username"
-            value={editField.username}
-            onChange={onChangeHandler}
-            className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
-          />
-        ) : (
-          data.username
-        )}
+        <input
+          name="username"
+          value={editField.username}
+          readOnly={!isEdit}
+          onChange={onChangeHandler}
+          className={`p-1 px-2 appearance-none ${
+            !isEdit && "bg-inherit"
+          } outline-none w-full text-gray-800`}
+        />
       </td>
       <td className="text-lg text-gray-900 font-semibold px-6 py-4 whitespace-nowrap w-1/3">
-        {isEdit ? (
-          <input
-            name="email"
-            value={editField.email}
-            onChange={onChangeHandler}
-            className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
-          />
-        ) : (
-          data.email
-        )}
+        <input
+          name="email"
+          value={editField.email}
+          readOnly={!isEdit}
+          onChange={onChangeHandler}
+          className={`p-1 px-2 appearance-none ${
+            !isEdit && "bg-inherit"
+          } outline-none w-full text-gray-800`}
+        />
       </td>
       <td className="text-lg text-gray-900 font-semibold px-6 py-4 whitespace-nowrap w-1/3">
         {isEdit ? (

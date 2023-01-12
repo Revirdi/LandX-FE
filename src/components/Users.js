@@ -44,7 +44,7 @@ function Users() {
     deleteUserMutation.mutate(id);
   };
 
-  const renderData = () => {
+  const RenderData = () => {
     return data.map((data) => {
       return (
         <UsersCard
@@ -125,7 +125,9 @@ function Users() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>{renderData()}</tbody>
+                  <tbody>
+                    <RenderData />
+                  </tbody>
                 </table>
               </div>
             </div>
